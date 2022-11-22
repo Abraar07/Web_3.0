@@ -2,7 +2,12 @@ import React from "react";
 import { HiMenuAlt4 } from "react-icons/hi";
 import { AiOutlineClose } from "react-icons/ai";
 
+import { Link } from "react-router-dom";
+import { Button } from "@material-ui/core";
+
+import {Routes, Route, useNavigate} from 'react-router-dom';
 import logo from "../../images/logo.png";
+import Auth from "./Auth";
 
 const NavBarItem = ({ title, classprops }) => (
   <li className={`mx-4 cursor-pointer ${classprops}`}>{title}</li>
@@ -10,6 +15,12 @@ const NavBarItem = ({ title, classprops }) => (
 
 const Navbar = () => {
   const [toggleMenu, setToggleMenu] = React.useState(false);
+  /* const navigate = useNavigate();
+
+  const navigateToSU = () => {
+    // 👇️ navigate to /contacts
+    navigate('/SignUp');
+  }; */
 
   return (
     <nav className="w-full flex md:justify-center justify-between items-center p-4">
@@ -20,9 +31,11 @@ const Navbar = () => {
         {["Market", "Exchange", "Tutorials", "Wallets"].map((item, index) => (
           <NavBarItem key={item + index} title={item} />
         ))}
-        <li className="bg-[#2952e3] py-2 px-7 mx-4 rounded-full cursor-pointer hover:bg-[#2546bd]">
-          Login
-        </li>
+        
+        <Button className="bg-[#2952e3] py-2 px-7 mx-4 rounded-full cursor-pointer hover:bg-[#2546bd]" component={Link} to={"/Auth"} variant="contained" color="primary">
+          SignIn
+        </Button>
+        
       </ul>
       <div className="flex relative">
         {!toggleMenu && (
