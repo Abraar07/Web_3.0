@@ -15,6 +15,7 @@ const NavBarItem = ({ title, classprops }) => (
 
 const Navbar = () => {
   const [toggleMenu, setToggleMenu] = React.useState(false);
+  const user = null;
   /* const navigate = useNavigate();
 
   const navigateToSU = () => {
@@ -32,9 +33,14 @@ const Navbar = () => {
           <NavBarItem key={item + index} title={item} />
         ))}
         
-        <Button className="bg-[#2952e3] py-2 px-7 mx-4 rounded-full cursor-pointer hover:bg-[#2546bd]" component={Link} to={"/Auth"} variant="contained" color="primary">
-          SignIn
-        </Button>
+        {/* <Button className="bg-[#2952e3] py-2 px-7 mx-4 rounded-full cursor-pointer hover:bg-[#2546bd]" color="primary"> */}
+         {user ? (
+          
+          <Button variant="contained" color="primary">SignOut</Button>
+          ) : (
+          <Button  component={Link} to={"/Auth"} variant="contained" color="primary">SignIn</Button>
+          )} 
+        
         
       </ul>
       <div className="flex relative">

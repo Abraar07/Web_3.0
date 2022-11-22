@@ -8,7 +8,7 @@ import { Provider } from "react-redux";
 import thunk from 'redux-thunk';
 import reducers from "./reducers"
 import { legacy_createStore, applyMiddleware, compose } from "redux";
-import Index from '.';
+
 
 const store = legacy_createStore(reducers, compose(applyMiddleware(thunk)))
 

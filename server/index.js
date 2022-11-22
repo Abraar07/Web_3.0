@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 
 
 import authRoute from "./routes/authroute.js";
-//import postRoutes from "./routes/posts.js";
+import postRoutes from "./routes/posts.js";
 
 const app = express();
 //dotenv.config();
@@ -14,7 +14,7 @@ const app = express();
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
-app.use("/auths",authRoute);
+app.use("/auths",(authRoute,postRoutes));
 
 
 // mongodb connection

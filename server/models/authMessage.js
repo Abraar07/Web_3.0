@@ -6,7 +6,7 @@ const authSchema = mongoose.Schema({
     lastname: String,
     email: String,
     password:String,
-    confirm_password:String
+    cpassword:String
 })
 
 const AuthMessage = mongoose.model("AuthMessage",authSchema)

@@ -1,9 +1,9 @@
-import React,{ useState } from 'react'
+import React,{ useState,useEffect } from 'react'
 import { Avatar,Button,Paper,Grid,Typography,Container, Icon } from '@material-ui/core';
 import LockOutlinedIcon from "@material-ui/icons/LockOpenOutlined";
 //import { GoogleLogin } from "react-google-login";
 import  logo  from "../../images/logo.png"
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
 /* import { GoogleLogin } from '@react-oauth/google';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import Google from './Google'; */
@@ -19,20 +19,37 @@ import { Link } from "react-router-dom";
 import GoogleAuth from './GoogleAuth'; 
 import Input from './Input';
 import useStyles from "./styles"
+import { createPost } from '../actions/posts';
 
 
 
-const Auth = () => {
+const Auth = ({ currentId,setCurrentId }) => {
   const classes  = useStyles();
   const [isSignup,setIsSignup] = useState(false)
-  
-  
+
+  const [postData,setPostData] = useState({
+    firstname:"",
+    lastname:"",
+    email:"",
+    password:"",
+    cpassword:""
+  })
+  const post = useSelector((state) => (currentId ? state.posts.find((message) => message._id === currentId) : null));
+  //const posts = useSelector((state)=>state.posts)
+  console.log(post)
+
   const dispatch = useDispatch();
   const [showPassword,setShowPassword] = useState(false);
   const handleShowPassword = () => setShowPassword(!showPassword);
 
-  const handleSubmit = () => {
+  useEffect(() => {
+    if (post) setPostData(post);
+  }, [post]);
 
+  const handleSubmit = (e) => {
+      e.preventDefault();
+      if(currentId)
+      dispatch(createPost(postData))
   }
 
   const handleChange = () => {
@@ -72,23 +89,23 @@ const Auth = () => {
               isSignup && (
                   <>
                     <Grid item >
-                    <Input name='firstNmae' label="First Name" handleChange={handleChange} autoFocus half />
+                    <Input name='firstName' label="First Name" handleChange={handleChange} autoFocus half value={postData.firstname} onChange={(e) => setPostData({ ...postData, firstname: e.target.value })}/>
                     </Grid>
                     <Grid item>
-                    <Input name='lasstNmae' label="Last Name" handleChange={handleChange}  half />
+                    <Input name='lastName' label="Last Name" handleChange={handleChange}  half value={postData.lastname} onChange={(e) => setPostData({ ...postData, lastname: e.target.value })}/>
                     </Grid>
                   </>
               )}
-                <Input    name="email" label="Email Address" fullwidth="true" handleChange={handleChange} type="email" />
-                <Input name="password" label="Password" handleChange={handleChange} type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} />
-                { isSignup && <Input name="confirmPassword" label="Repeat Password" handleChange={handleChange} type="password" /> }
+                <Input    name="email" label="Email Address" fullwidth="true" handleChange={handleChange} type="email" value={postData.email} onChange={(e) => setPostData({ ...postData, email: e.target.value })}/>
+                <Input name="password" label="Password" handleChange={handleChange} type={showPassword ? 'text' : 'password'} handleShowPassword={handleShowPassword} value={postData.password} onChange={(e) => setPostData({ ...postData, password: e.target.value })}/>
+                { isSignup && <Input name="cpassword" label="Repeat Password" handleChange={handleChange} type="password" value={postData.cpassword} onChange={(e) => setPostData({ ...postData, cpassword: e.target.value })}/> }
           </Grid>
-          <Button type="submit" fullwidth variant='contained' color="primary" className={classes.submit} component={Link} to={"/"}>
+          <Button type="submit" fullwidth variant='contained' color="primary" className={classes.submit} component={Link} to={"/"} >
             {isSignup ? "Sign Up" : "Sign In"}
           </Button>
           <GoogleAuth />
           {/* <GoogleLogin 
-              prompt='consent'
+              prompt='consent'value={postData.firstname} onChange={(e) => setPostData({ ...postData, firstname: e.target.value })}
               clientId='283138669990-3pqt4kijmvofdldgdfdpavo448vf4j2a.apps.googleusercontent.com'
               render={(renderProps) => (
                 <Button    style = {{width: 365}} className={classes.googleButton} color="primary" fullWidth={true} onClick={renderProps.onClick} disabled={renderProps.disabled} startIcon={<Icon />} variant="contained"> Google Sign In</Button>
